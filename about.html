@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - AI Ads Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4caf50, #2196f3);
+            color: #fff;
+            overflow-x: hidden;
+            transition: background 1.5s ease;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            z-index: 10;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+
+        .back-button, .language-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover, .language-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button i, .language-toggle i {
+            font-size: 1.2rem;
+        }
+
+        /* Main About Section */
+        .about-section {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        .about-heading {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Buttons Section */
+        .buttons-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 80px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .action-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Points Section */
+        .points-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .point-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .point-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .point-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .point-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-heading {
+                font-size: 2.5rem;
+            }
+            
+            .about-text {
+                font-size: 1rem;
+            }
+            
+            .action-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            
+            .points-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .buttons-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .about-heading {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="back-button" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </div>
+            <div class="language-toggle" id="languageToggle">
+                <i class="fas fa-globe"></i>
+                <span>Switch to English</span>
+            </div>
+        </div>
+
+        <!-- Main About Section -->
+        <section class="about-section">
+            <h1 class="about-heading" id="aboutHeading">About Us</h1>
+            <p class="about-text" id="aboutText">
+                Hamari app ek AI-driven Ads Promotion system hai jisme sab kuch automatic hota hai. Aapko sirf WhatsApp link karna hota hai, aur AI robot ke through ads send hote hain. Har message ka fixed payout milta hai — jaise 100 messages = ₹100. App khud numbers provide karti hai, aur personal contacts par kabhi ads nahi bheje jaate. Saath hi, offline SMS ads bhi system mein available hain.
+            </p>
+        </section>
+
+        <!-- Buttons Section -->
+        <div class="buttons-section">
+            <a href="guide.html" class="action-button">
+    <i class="fas fa-book-open"></i>
+    <span>Guide</span>
+</a>
+            <a href="https://t.me/DarkNPT" target="_blank" class="action-button">
+                <i class="fab fa-telegram-plane"></i>
+                <span>Join on Telegram</span>
+            </a>
+        </div>
+
+        <!-- Points Section -->
+        <div class="points-section">
+            <div class="point-card">
+                <div class="point-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <p class="point-text" id="point1Text">
+                    Personal contacts pe kabhi ads nahi jaate; app khud numbers assign karti hai.
+                </p>
+            </div>
+            <div class="point-card">
+                <div class="point-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <p class="point-text" id="point2Text">
+                    AI robot ke through saare ads chalti hain; aapko sirf WhatsApp link karna hota hai.
+                </p>
+            </div>
+            <div class="point-card">
+                <div class="point-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <p class="point-text" id="point3Text">
+                    Fixed reward system; example: 100 messages = ₹100 + offline SMS ads bhi available.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Language Toggle Functionality
+        const languageToggle = document.getElementById('languageToggle');
+        let isEnglish = false;
+        
+        // Language content
+        const content = {
+            hinglish: {
+                aboutHeading: "About Us",
+                aboutText: "Hamari app ek AI-driven Ads Promotion system hai jisme sab kuch automatic hota hai. Aapko sirf WhatsApp link karna hota hai, aur AI robot ke through ads send hote hain. Har message ka fixed payout milta hai — jaise 100 messages = ₹100. App khud numbers provide karti hai, aur personal contacts par kabhi ads nahi bheje jaate. Saath hi, offline SMS ads bhi system mein available hain.",
+                point1Text: "Personal contacts pe kabhi ads nahi jaate; app khud numbers assign karti hai.",
+                point2Text: "AI robot ke through saare ads chalti hain; aapko sirf WhatsApp link karna hota hai.",
+                point3Text: "Fixed reward system; example: 100 messages = ₹100 + offline SMS ads bhi available.",
+                toggleText: "Switch to English"
+            },
+            english: {
+                aboutHeading: "About Us",
+                aboutText: "Our app is an AI-powered Ads Promotion platform where everything runs automatically. You just need to link your WhatsApp, and the AI system sends ads for you. Each message has a fixed payout — for example, 100 messages = ₹100. The app provides numbers on its own, never using your personal contacts. The platform also supports offline SMS ads.",
+                point1Text: "Ads are never sent to personal contacts; the app itself assigns numbers.",
+                point2Text: "All ads run through an AI robot; you just need to link your WhatsApp.",
+                point3Text: "Fixed reward system; example: 100 messages = ₹100 + offline SMS ads also available.",
+                toggleText: "Switch to Hinglish"
+            }
+        };
+        
+        languageToggle.addEventListener('click', () => {
+            isEnglish = !isEnglish;
+            const lang = isEnglish ? 'english' : 'hinglish';
+            
+            document.getElementById('aboutHeading').textContent = content[lang].aboutHeading;
+            document.getElementById('aboutText').textContent = content[lang].aboutText;
+            document.getElementById('point1Text').textContent = content[lang].point1Text;
+            document.getElementById('point2Text').textContent = content[lang].point2Text;
+            document.getElementById('point3Text').textContent = content[lang].point3Text;
+            languageToggle.querySelector('span').textContent = content[lang].toggleText;
+        });
+        
+        // Background Color Transition
+        const colors = [
+            'linear-gradient(135deg, #4caf50, #2196f3)', // Green to Blue
+            'linear-gradient(135deg, #ff9800, #f44336)', // Orange to Red
+            'linear-gradient(135deg, #9c27b0, #673ab7)', // Purple to Deep Purple
+            'linear-gradient(135deg, #00bcd4, #009688)', // Cyan to Teal
+            'linear-gradient(135deg, #ffeb3b, #ff9800)', // Yellow to Orange
+            'linear-gradient(135deg, #e91e63, #ad1457)', // Pink to Dark Pink
+            'linear-gradient(135deg, #3f51b5, #2196f3)', // Indigo to Blue
+            'linear-gradient(135deg, #ff5722, #ff9800)', // Deep Orange to Orange
+            'linear-gradient(135deg, #795548, #3e2723)', // Brown to Dark Brown
+            'linear-gradient(135deg, #607d8b, #263238)', // Blue Grey to Dark Blue Grey
+            'linear-gradient(135deg, #ff4081, #9c27b0)', // Pink to Purple
+            'linear-gradient(135deg, #00b0ff, #2962ff)'  // Light Blue to Blue
+        ];
+        
+        let currentColorIndex = 0;
+        
+        function changeBackgroundColor() {
+            currentColorIndex = (currentColorIndex + 1) % colors.length;
+            document.body.style.background = colors[currentColorIndex];
+            
+            // Adjust text color based on background brightness
+            const isDark = currentColorIndex < 4 || currentColorIndex > 8;
+            document.body.style.color = isDark ? '#fff' : '#333';
+        }
+        
+        // Initial call and set interval
+        changeBackgroundColor();
+        setInterval(changeBackgroundColor, 10000); // Change every 10 seconds
+        
+        // Scroll Animation for Points
+        function checkScroll() {
+            const pointCards = document.querySelectorAll('.point-card');
+            const windowHeight = window.innerHeight;
+            
+            pointCards.forEach((card, index) => {
+                const position = card.getBoundingClientRect().top;
+                
+                if (position < windowHeight - 100) {
+                    // Add delay based on index for staggered animation
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 300);
+                }
+            });
+        }
+        
+        // Initial check and add scroll event listener
+        window.addEventListener('load', checkScroll);
+        window.addEventListener('scroll', checkScroll);
+    </script>
+</body>
+</html>

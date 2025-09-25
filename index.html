@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Earn Money → AI Task</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            font-family: "Poppins", sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding: 20px;
+            padding-top: 70px;
+        }
+        
+        /* Header and Menu */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(15, 12, 41, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu-btn {
+            background: transparent;
+            border: none;
+            color: #00ffe0;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .menu-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 255, 224, 0.2);
+            display: none;
+            flex-direction: column;
+            padding: 10px 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu.active {
+            display: flex;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #fff;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .menu-item:hover {
+            background: rgba(0, 255, 224, 0.1);
+        }
+        
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            color: #00ffe0;
+        }
+        
+        /* Page Title */
+        .page-title {
+           font-size: 2.5rem;
+           font-weight: 700;
+           color: #00ffe0;
+           text-shadow: 0 0 10px #00ffe0, 0 0 20px #00ffe0;
+           margin-bottom: 30px;
+           text-align: center;   /* Center align */
+           padding-left: 0;      /* Left padding hata diya */
+         }
+        
+        /* Video Container */
+        .video-container {
+            max-width: 400px;
+            margin: 0 auto 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
+            background: #000;
+        }
+        
+        .video-thumbnail {
+            width: 100%;
+            display: block;
+            cursor: pointer;
+        }
+        
+        .video-player {
+            width: 100%;
+            display: none;
+        }
+        
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .play-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        /* Register Button */
+        .register-btn {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 40px;
+            padding: 15px;
+            background: linear-gradient(135deg, #00ffe0, #00ccb3);
+            color: #0f0c29;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 255, 224, 0.3);
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 255, 224, 0.5);
+        }
+        
+        /* Sections */
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.3s;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .section.show {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease-in-out;
+        }
+        
+        .section:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .section img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        
+        .section h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #ffea00;
+        }
+        
+        .section p {
+            font-size: 0.95rem;
+            color: #ddd;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: #aaa;
+            padding: 20px;
+        }
+        
+        /* Popup Styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .popup-container {
+            background: linear-gradient(135deg, #1a1a40, #2d2b6e);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .popup-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .popup-icon img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .popup-text {
+            min-height: 60px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .typing-text {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #00ffe0;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .popup-note {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+        
+        .explore-btn {
+            background: linear-gradient(135deg, #00ffe0, #00ccb3);
+            color: #0f0c29;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 255, 224, 0.3);
+        }
+        
+        .explore-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 255, 224, 0.5);
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .popup-container {
+                padding: 20px;
+            }
+            
+            .typing-text {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Menu -->
+    <header>
+        <button class="menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="menu">
+            <a href="#" class="menu-item" id="menu-registration">
+                <i class="fas fa-user-plus"></i> Registration
+            </a>
+            <a href="about.html" class="menu-item">
+                <i class="fas fa-info-circle"></i> About
+            </a>
+            <a href="guide.html" class="menu-item">
+                <i class="fas fa-book"></i> Guide
+            </a>
+            <a href="https://t.me/DarkNPT" class="menu-item">
+                <i class="fab fa-telegram"></i> Join
+            </a>
+        </nav>
+    </header>
+
+    <!-- Floating Popup -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-container">
+            <div class="popup-icon">
+                <img id="popupIcon" src="https://i.ibb.co/hxrJ5S33/icon-one-ee9b5e0c.png" alt="Popup Icon">
+            </div>
+            <div class="popup-text">
+                <div class="typing-text" id="typingText"></div>
+                <span class="cursor" id="cursor">✦</span>
+            </div>
+            <p class="popup-note">Explore more about us.</p>
+            <button class="explore-btn" id="exploreBtn">Explore ➴</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <h1 class="page-title">What's AI Task</h1>
+        
+        <!-- Video Section -->
+        <div class="video-container">
+            <img src="THM.png" alt="Video Thumbnail" class="video-thumbnail" id="videoThumbnail">
+            <video class="video-player" id="videoPlayer" controls>
+                <source src="Reel.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="play-btn" id="playBtn">
+                <i class="fas fa-play"></i>
+            </div>
+        </div>
+        
+        <!-- Register Button -->
+        <a href="https://www.athenain.com/m_register?invite_code=136126" class="register-btn">Register</a>
+        
+        <!-- Steps Sections -->
+        <section class="section">
+            <img src="https://i.ibb.co/hxrJ5S33/icon-one-ee9b5e0c.png" alt="Step 1">
+            <div>
+                <h2>Step 1: Start Task</h2>
+                <p>Choose your first task and begin your earning journey.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <img src="https://i.ibb.co/MzbZBxd/step3-b5364fe6.png" alt="Complete Task">
+            <div>
+                <h2>Step 2: Complete Task</h2>
+                <p>Finish the assigned tasks with simple instructions.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <img src="https://i.ibb.co/8njsdVJK/Revenue-7073c03f.png" alt="Revenue">
+            <div>
+                <h2>Step 3: Earn Revenue</h2>
+                <p>Get instant rewards for every task you complete.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <img src="https://i.ibb.co/qMPLWcWh/yaoqing-121c532e.png" alt="Withdrawal">
+            <div>
+                <h2>Step 4: Withdraw Balance</h2>
+                <p>Transfer your earnings directly to your bank anytime.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <img src="https://i.ibb.co/dJLzY5dG/rtop1-8b761a57.png" alt="Invite">
+            <div>
+                <h2>Step 5: Invite & Earn</h2>
+                <p>Share with friends and earn extra bonuses on every referral.</p>
+            </div>
+        </section>
+
+        <footer>
+            © 2025 Earn with What's Task. All rights reserved.
+        </footer>
+    </main>
+
+    <script>
+        // Popup functionality
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupIcon = document.getElementById('popupIcon');
+        const typingText = document.getElementById('typingText');
+        const cursor = document.getElementById('cursor');
+        const exploreBtn = document.getElementById('exploreBtn');
+        
+        // Popup messages and icons
+        const popupMessages = [
+            { text: "WhatsApp Income – Powered by AI", icon: "https://i.ibb.co/hxrJ5S33/icon-one-ee9b5e0c.png" },
+            { text: "Part-Time Auto Income with WhatsApp", icon: "https://i.ibb.co/MzbZBxd/step3-b5364fe6.png" },
+            { text: "Earn Smart with WhatsApp AI", icon: "https://i.ibb.co/8njsdVJK/Revenue-7073c03f.png" },
+            { text: "Easy to Use – No Investment, No Risk!", icon: "https://i.ibb.co/bMTxT0Qn/Withdrawal-ae9a33d1.png" },
+            { text: "Daily Income, Daily Withdrawal – Fast & Secure", icon: "https://i.ibb.co/qMPLWcWh/yaoqing-121c532e.png" },
+            { text: "Refer & Earn – High Profits, Unlimited Growth", icon: "https://i.ibb.co/HpFR0LC7/shape-7-c93a5818.png" }
+        ];
+        
+        let currentMessageIndex = 0;
+        let typingInterval;
+        
+        // Function to type text with animation
+        function typeText(text, speed = 50) {
+            let charIndex = 0;
+            typingText.textContent = '';
+            
+            clearInterval(typingInterval);
+            
+            typingInterval = setInterval(() => {
+                if (charIndex < text.length) {
+                    typingText.textContent += text.charAt(charIndex);
+                    charIndex++;
+                } else {
+                    clearInterval(typingInterval);
+                    cursor.style.animation = 'none'; // Stop blinking when typing is done
+                    
+                    // After typing is complete, wait and then fade to next message
+                    setTimeout(() => {
+                        fadeToNextMessage();
+                    }, 2000); // Wait 2 seconds before fading to next message
+                }
+            }, speed);
+        }
+        
+        // Function to fade to next message
+        function fadeToNextMessage() {
+            // Fade out current message
+            typingText.style.opacity = '0';
+            
+            setTimeout(() => {
+                // Update to next message
+                currentMessageIndex = (currentMessageIndex + 1) % popupMessages.length;
+                const nextMessage = popupMessages[currentMessageIndex];
+                
+                // Update icon
+                popupIcon.src = nextMessage.icon;
+                
+                // Reset cursor animation
+                cursor.style.animation = 'blink 1s infinite';
+                
+                // Fade in and type new message
+                typingText.style.opacity = '1';
+                typeText(nextMessage.text);
+            }, 500); // Wait for fade out to complete
+        }
+        
+        // Start the popup animation
+        function startPopupAnimation() {
+            const firstMessage = popupMessages[0];
+            popupIcon.src = firstMessage.icon;
+            typeText(firstMessage.text);
+        }
+        
+        // Close popup when Explore button is clicked
+        exploreBtn.addEventListener('click', () => {
+            popupOverlay.style.opacity = '0';
+            setTimeout(() => {
+                popupOverlay.style.display = 'none';
+            }, 500);
+        });
+        
+        // Start popup animation when page loads
+        window.addEventListener('load', () => {
+            startPopupAnimation();
+        });
+        
+        // Menu functionality
+        const menuBtn = document.querySelector('.menu-btn');
+        const menu = document.querySelector('.menu');
+        
+        menuBtn.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+        
+        // Scroll to registration button when menu item is clicked
+        const menuRegistration = document.getElementById('menu-registration');
+        const registerBtn = document.querySelector('.register-btn');
+        
+        menuRegistration.addEventListener('click', (e) => {
+            e.preventDefault();
+            menu.classList.remove('active');
+            registerBtn.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Video functionality
+        const videoThumbnail = document.getElementById('videoThumbnail');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const playBtn = document.getElementById('playBtn');
+        
+        playBtn.addEventListener('click', toggleVideoPlay);
+        videoThumbnail.addEventListener('click', toggleVideoPlay);
+        videoPlayer.addEventListener('click', toggleVideoPlay);
+        
+        function toggleVideoPlay() {
+            if (videoPlayer.paused) {
+                videoThumbnail.style.display = 'none';
+                playBtn.style.display = 'none';
+                videoPlayer.style.display = 'block';
+                videoPlayer.play();
+            } else {
+                videoPlayer.pause();
+                playBtn.style.display = 'flex';
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        }
+        
+        // Update play button when video is paused by user
+        videoPlayer.addEventListener('pause', () => {
+            playBtn.style.display = 'flex';
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        });
+        
+        // Section fade-in on scroll
+        const sections = document.querySelectorAll(".section");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                } else {
+                    entry.target.classList.remove("show");
+                }
+            });
+        }, { threshold: 0.2 });
+
+        sections.forEach(section => observer.observe(section));
+        
+        // Prevent zoom and text selection
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
